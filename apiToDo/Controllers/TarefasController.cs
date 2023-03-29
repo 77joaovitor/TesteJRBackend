@@ -48,18 +48,29 @@ namespace apiToDo.Controllers
             }
         }
 
-        [HttpGet("DeletarTarefa")]
+        [HttpDelete("DeletarTarefa")]
         public ActionResult DeleteTask([FromQuery] int ID_TAREFA)
         {
             try
-            {
+            {   
+                // Busca a tarefa na lista pelo ID
+                var tarefa = _tarefas.Find(t => t.ID_TAREFA == id);
 
-                return StatusCode(200);
+                 // Verifica se a tarefa existe
+                if (tarefa == null)
+                {
+                    return NotFound($"Tarefa com ID {id} não encontrada.");
+                }
+
+                 // Remove a tarefa da lista
+                _tarefas.Remove(tarefa); // Retorna status 204 - No Content
+
+                return NoContent();
             }
 
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}" });
+                return BadRequest($"Ocorreu um erro em sua API {ex.Message}");
             }
         }
     }
