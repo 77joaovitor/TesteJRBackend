@@ -35,17 +35,16 @@ namespace apiToDo.Controllers
         [HttpPost("InserirTarefas")]
         public ActionResult InserirTarefas([FromBody] TarefaDTO Request)
         {
-            try
+           try
             {
 
-                return StatusCode(200);
-
-
+            var lstResponse = lstTarefas();
+            lstResponse.Add(request);
             }
 
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}" });
+                return BadRequest($"Ocorreu um erro em sua API {ex.Message}");
             }
         }
 
