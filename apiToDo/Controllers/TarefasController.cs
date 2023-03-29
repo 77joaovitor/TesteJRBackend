@@ -10,19 +10,25 @@ namespace apiToDo.Controllers
     [Route("[controller]")]
     public class TarefasController : ControllerBase
     {
+        private readonly Tarefas _tarefas;
+
+        public TarefasController(Tarefas tarefas)
+        {
+            _tarefas = tarefas;
+        }
         [Authorize]
-        [HttpPost("lstTarefas")]
-        public ActionResult lstTarefas()
+        [HttpGet("lstTarefas")]
+         public ActionResult lstTarefas()
         {
             try
             {
-              
-                return StatusCode(200);
-            }
+            var tarefas = _tarefas.lstTarefas();
+            return Ok(tarefas);
+        }
 
             catch (Exception ex)
             {
-                return StatusCode(400, new { msg = $"Ocorreu um erro em sua API {ex.Message}"});
+                return BadRequest($"Ocorreu um erro em sua API {ex.Message}");
             }
         }
 
